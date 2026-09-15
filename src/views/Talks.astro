@@ -1,0 +1,85 @@
+---
+import Base from '../layouts/Base.astro';
+import TalkCard from '../components/TalkCard.astro';
+import Newsletter from '../components/Newsletter.astro';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+import { site } from '../config';
+import { getCollection } from 'astro:content';
+const { lang } = Astro.props as { lang: Lang };
+const t = useTranslations(lang);
+const talks = (await getCollection('talks')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const cities = [...new Set(talks.map(x => x.data.city))].sort();
+const tags = [...new Set(talks.flatMap(x => x.data.tags))].sort();
+---
+<Base lang={lang} routeKey="talks" title={t('talks.title')}>
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{t('latest.kicker').split(' ')[0] === 'Latest' ? 'The archive' : 'El archivo'}</span>
+        <h1>{t('talks.h1')}</h1>
+        <p>{t('talks.p')}</p>
+      </div>
+
+      {talks.length > 0 && (
+        <div class="filters" data-filters>
+          <div class="group">
+            <span class="lbl">{t('talks.filter.city')}</span>
+            <button class="chip active" data-filter="city" data-value="">{t('talks.filter.all')}</button>
+            {cities.map(c => <button class="chip" data-filter="city" data-value={c}>{c}</button>)}
+          </div>
+          {tags.length > 0 && (
+            <div class="group">
+              <span class="lbl">{t('talks.filter.tag')}</span>
+              <button class="chip active" data-filter="tag" data-value="">{t('talks.filter.all')}</button>
+              {tags.map(x => <button class="chip" data-filter="tag" data-value={x}>{x}</button>)}
+            </div>
+          )}
+        </div>
+      )}
+
+      {talks.length > 0 ? (
+        <div class="grid-3" data-talks>
+          {talks.map(talk => <TalkCard talk={talk} lang={lang} />)}
+        </div>
+      ) : (
+        <div class="empty">
+          <p>{t('talks.empty')}</p>
+          <p class="mono note">{t('latest.empty.note')}</p>
+          {site.youtube && <p style="margin-top:20px"><a href={site.youtube} class="btn btn-ghost" target="_blank" rel="noopener">{t('latest.channel')}</a></p>}
+        </div>
+      )}
+    </div>
+  </section>
+  <Newsletter lang={lang} />
+</Base>
+
+<style>
+  .filters{ display:flex; flex-direction:column; gap:14px; margin-bottom:28px; }
+  .group{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  .lbl{ font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color: var(--ink-soft); margin-right:6px; }
+  .chip{ background: var(--card); border:1px solid var(--card-border); color: var(--ink-soft); border-radius:100px; padding:7px 14px; font-size:13px; cursor:pointer; font-family:'Inter',sans-serif; }
+  .chip.active{ background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .empty{ border:1px dashed var(--card-border); border-radius:18px; padding:48px 24px; text-align:center; color: var(--ink-soft); font-size:15px; background: var(--card); }
+  .empty .note{ font-size:13px; opacity:.7; margin-top:6px; }
+</style>
+
+<script is:inline>
+  (function(){
+    var root = document.querySelector('[data-filters]');
+    var grid = document.querySelector('[data-talks]');
+    if(!root || !grid) return;
+    var state = { city: '', tag: '' };
+    root.addEventListener('click', function(e){
+      var b = e.target.closest('.chip'); if(!b) return;
+      var f = b.getAttribute('data-filter'), v = b.getAttribute('data-value');
+      state[f] = v;
+      root.querySelectorAll('.chip[data-filter="'+f+'"]').forEach(function(c){ c.classList.toggle('active', c === b); });
+      grid.querySelectorAll('.talk-card').forEach(function(card){
+        var okCity = !state.city || card.getAttribute('data-city') === state.city;
+        var okTag = !state.tag || (card.getAttribute('data-tags')||'').split('|').indexOf(state.tag) !== -1;
+        card.style.display = (okCity && okTag) ? '' : 'none';
+      });
+    });
+  })();
+</script>

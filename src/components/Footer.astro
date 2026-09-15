@@ -1,0 +1,49 @@
+---
+import { useTranslations, useRoutes } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+import { site } from '../config';
+const { lang } = Astro.props as { lang: Lang };
+const t = useTranslations(lang);
+const r = useRoutes(lang);
+const year = new Date().getFullYear();
+---
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <div class="brand">1492<span>tokens</span></div>
+        <p class="tag">{t('footer.tag')}</p>
+        <p class="made">{t('footer.made')} <a href={r('about')}>{site.founder}</a> · {year}</p>
+      </div>
+      <div class="links">
+        <a href={r('what')}>{t('nav.what')}</a>
+        <a href={r('event')}>{t('nav.event')}</a>
+        <a href={r('talks')}>{t('nav.talks')}</a>
+        <a href={r('speak')}>{t('nav.speak')}</a>
+        <a href={r('cities')}>{t('nav.cities')}</a>
+        <a href={r('about')}>{t('nav.about')}</a>
+      </div>
+      <div class="links">
+        {site.youtube && <a href={site.youtube} target="_blank" rel="noopener">YouTube</a>}
+        {site.instagram && <a href={site.instagram} target="_blank" rel="noopener">Instagram</a>}
+        {site.tiktok && <a href={site.tiktok} target="_blank" rel="noopener">TikTok</a>}
+        {site.linkedin && <a href={site.linkedin} target="_blank" rel="noopener">LinkedIn</a>}
+        <a href={`mailto:${site.contactEmail}`}>{t('footer.contact')}</a>
+        <a href={r('privacy')}>{t('footer.privacy')}</a>
+        <a href={r('legal')}>{t('footer.legal')}</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<style>
+  footer{ padding: 48px 0 36px; border-top:1px solid var(--line); position:relative; z-index:2; }
+  .cols{ display:grid; grid-template-columns:1fr; gap:28px; }
+  @media (min-width: 760px){ .cols{ grid-template-columns: 1.4fr 1fr 1fr; gap:40px; } }
+  .brand{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:17px; margin-bottom:10px; }
+  .brand span{ color: var(--coral); }
+  .tag{ font-size:13.5px; color: var(--ink-soft); max-width:300px; line-height:1.6; }
+  .made{ margin-top:14px; font-size:12.5px; color: var(--ink-soft); }
+  .made a{ color: var(--ink); }
+  .links{ display:flex; flex-direction:column; gap:10px; font-size:14px; color: var(--ink-soft); }
+  .links a:hover{ color: var(--ink); }
+</style>

@@ -1,0 +1,10 @@
+---
+import { getCollection } from 'astro:content';
+import Talk from '../../../views/Talk.astro';
+export async function getStaticPaths() {
+  const talks = await getCollection('talks');
+  return talks.map(talk => ({ params: { id: talk.id }, props: { talk } }));
+}
+const { talk } = Astro.props;
+---
+<Talk lang="en" talk={talk} />

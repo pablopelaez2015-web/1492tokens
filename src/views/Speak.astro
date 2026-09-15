@@ -1,0 +1,70 @@
+---
+import Base from '../layouts/Base.astro';
+import { useTranslations, useRoutes } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+import { site } from '../config';
+const { lang } = Astro.props as { lang: Lang };
+const t = useTranslations(lang);
+const r = useRoutes(lang);
+---
+<Base lang={lang} routeKey="speak" title={t('speak.title')}>
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{lang === 'es' ? 'Sube al escenario' : 'Get on stage'}</span>
+        <h1>{t('speak.h1')}</h1>
+        <p>{t('speak.lead')}</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h2 class="h">{t('speak.what.h')}</h2>
+          <ul class="num-list">
+            <li><span class="num">01</span> {t('speak.what.1')}</li>
+            <li><span class="num">02</span> {t('speak.what.2')}</li>
+            <li><span class="num">03</span> {t('speak.what.3')}</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2 class="h">{t('speak.give.h')}</h2>
+          <ul class="num-list">
+            <li><span class="num">01</span> {t('speak.give.1')}</li>
+            <li><span class="num">02</span> {t('speak.give.2')}</li>
+            <li><span class="num">03</span> {t('speak.give.3')}</li>
+            <li><span class="num">04</span> {t('speak.give.4')}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid-2 second">
+        <div class="card card-grad form">
+          <h2 class="h">{t('speak.form.h')}</h2>
+          <p class="p">{t('speak.form.p')}</p>
+          <p class="p small">{t('speak.form.fields')}</p>
+          {site.speakerFormUrl
+            ? <a href={site.speakerFormUrl} class="btn btn-solid btn-block" target="_blank" rel="noopener">{t('speak.form.btn')}</a>
+            : <p class="p">{t('speak.form.soon')} <a class="mail" href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a></p>}
+        </div>
+        <div>
+          <div class="card">
+            <h2 class="h">{t('speak.deadline.h')}</h2>
+            <p class="p">{t('speak.deadline.p')}</p>
+          </div>
+          <div class="card rights">
+            <h2 class="h">{t('speak.rights.h')}</h2>
+            <p class="p">{t('speak.rights.p')} <a class="mail" href={r('legal')}>{t('speak.rights.link')}</a>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .h{ font-size:20px; margin-bottom:6px; }
+  .p{ color: var(--ink-soft); line-height:1.6; font-size:15px; margin-top:10px; }
+  .p.small{ font-size:13.5px; }
+  .second{ margin-top:24px; }
+  .form .btn{ margin-top:22px; }
+  .rights{ margin-top:16px; }
+  .mail{ color: var(--mint); text-decoration: underline; text-underline-offset:3px; }
+</style>

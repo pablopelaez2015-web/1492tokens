@@ -1,0 +1,81 @@
+---
+import Base from '../layouts/Base.astro';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+import { site } from '../config';
+const { lang } = Astro.props as { lang: Lang };
+const t = useTranslations(lang);
+const updated = '15 de septiembre de 2026';
+---
+<Base lang={lang} routeKey="legal" title={t('legal.notice.title')} ticker={false}>
+  <section>
+    <div class="wrap wrap-narrow">
+      <div class="section-head">
+        <h1>{t('legal.notice.title')}</h1>
+        <p class="mono" style="font-size:13px">{t('legal.updated')}: {updated}</p>
+      </div>
+
+      {lang === 'es' ? (
+      <div class="prose">
+        <p><strong>Texto base pendiente de revisión legal.</strong> Sustituye los campos entre corchetes antes de publicar.</p>
+
+        <h2>1. Titular del sitio web</h2>
+        <p>En cumplimiento de la Ley 34/2002, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa de que el titular de <strong>1492tokens.com</strong> es {site.founder}, NIF [NIF], con domicilio en [Dirección postal], León, España. Contacto: <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>.</p>
+
+        <h2>2. Objeto</h2>
+        <p>1492tokens es un evento mensual, gratuito y sin ánimo de lucro, de charlas breves sobre inteligencia artificial. Este sitio web informa del proyecto, de las próximas ediciones y aloja el archivo de charlas grabadas.</p>
+
+        <h2>3. Propiedad intelectual e industrial</h2>
+        <p>El nombre «1492tokens», su logotipo, el diseño de esta web y los textos de la misma son titularidad de {site.founder}. Queda prohibida su reproducción con fines comerciales sin autorización.</p>
+        <p>Las charlas grabadas son obra de sus respectivos ponentes, que conservan la autoría y todos los derechos morales sobre su contenido.</p>
+
+        <h2>4. Cesión de derechos de grabación por parte de los ponentes</h2>
+        <p>La participación como ponente en cualquier edición de 1492tokens, en cualquier ciudad, implica la aceptación de las siguientes condiciones, que se confirmarán por escrito antes de la grabación:</p>
+        <ul>
+          <li>El ponente <strong>autoriza la grabación</strong> en vídeo y audio de su charla, así como la captación de su imagen y voz durante la misma.</li>
+          <li>El ponente <strong>cede a 1492tokens, de forma gratuita, no exclusiva, para todo el mundo y por el tiempo máximo que permita la ley</strong>, los derechos de reproducción, distribución, comunicación pública y transformación necesarios para: (a) publicar la grabación íntegra en el canal de YouTube de 1492tokens y en esta web; (b) editar y publicar fragmentos de la grabación en Instagram, TikTok, LinkedIn, X y cualquier otra red social o plataforma del proyecto; (c) utilizar extractos con fines de promoción del propio evento.</li>
+          <li>La cesión es <strong>no exclusiva</strong>: el ponente puede publicar y compartir la grabación de su charla donde desee, citando a 1492tokens como origen.</li>
+          <li>1492tokens <strong>no comercializará</strong> las grabaciones ni las cederá a terceros con fines comerciales sin autorización expresa del ponente.</li>
+          <li>El ponente garantiza que el contenido de su charla es original o que dispone de los derechos necesarios sobre los materiales de terceros que utilice, y que no vulnera derechos de terceros ni contiene información confidencial de la que no pueda disponer.</li>
+          <li>El ponente puede <strong>solicitar la retirada</strong> de su grabación escribiendo a <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>. 1492tokens la retirará de los canales bajo su control en un plazo razonable, sin perjuicio de las copias que hayan podido realizar terceros.</li>
+        </ul>
+
+        <h2>5. Ediciones en otras ciudades</h2>
+        <p>Cualquier persona puede organizar una edición de 1492tokens en su ciudad, sin coste ni franquicia, siempre que respete el formato (cinco charlas de 8–10 minutos sobre inteligencia artificial, grabadas y publicadas en el canal común) y estas condiciones. El organizador local es responsable de la sede, de la seguridad de los asistentes y del cumplimiento de la normativa aplicable en su territorio. 1492tokens puede retirar el uso del nombre a ediciones que no respeten el formato o el espíritu del proyecto.</p>
+
+        <h2>6. Exclusión de responsabilidad</h2>
+        <p>Las opiniones expresadas en las charlas son responsabilidad exclusiva de sus ponentes y no representan necesariamente la opinión de 1492tokens ni de su titular. Este sitio contiene enlaces a plataformas de terceros (Luma, YouTube, redes sociales) sobre cuyo contenido y políticas 1492tokens no tiene control.</p>
+
+        <h2>7. Legislación aplicable</h2>
+        <p>Este aviso legal se rige por la legislación española. Para cualquier controversia, las partes se someten a los juzgados y tribunales de León, salvo que la normativa de consumidores disponga otro fuero.</p>
+      </div>
+      ) : (
+      <div class="prose">
+        <p><strong>Base text pending legal review.</strong> The Spanish version is the authoritative one.</p>
+        <h2>1. Site owner</h2>
+        <p>{site.founder}, Tax ID [NIF], [Postal address], León, Spain. Contact: <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>.</p>
+        <h2>2. Purpose</h2>
+        <p>1492tokens is a free, non-profit monthly event of short talks about artificial intelligence. This website informs about the project and hosts the archive of recorded talks.</p>
+        <h2>3. Intellectual property</h2>
+        <p>The name "1492tokens", its logo, this website's design and texts belong to {site.founder}. Recorded talks are the work of their respective speakers, who retain authorship and all moral rights.</p>
+        <h2>4. Speakers' rights assignment</h2>
+        <p>By taking part as a speaker in any 1492tokens edition, in any city, and confirmed in writing before recording, the speaker:</p>
+        <ul>
+          <li><strong>Authorises the recording</strong> of the talk in video and audio, including their image and voice.</li>
+          <li><strong>Grants 1492tokens a free, non-exclusive, worldwide licence</strong>, for the maximum term allowed by law, to reproduce, distribute, publicly communicate and transform the recording in order to: (a) publish it in full on the 1492tokens YouTube channel and this website; (b) edit and publish clips on Instagram, TikTok, LinkedIn, X and any other project channel; (c) use excerpts to promote the event.</li>
+          <li>The licence is <strong>non-exclusive</strong>: the speaker may publish and share the recording anywhere, crediting 1492tokens.</li>
+          <li>1492tokens will <strong>not commercialise</strong> the recordings nor license them to third parties for commercial purposes without the speaker's express consent.</li>
+          <li>The speaker warrants that the content is original or duly licensed and does not infringe third-party rights or disclose confidential information.</li>
+          <li>The speaker may <strong>request removal</strong> by writing to <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>; 1492tokens will remove it from the channels under its control within a reasonable time.</li>
+        </ul>
+        <h2>5. Editions in other cities</h2>
+        <p>Anyone may host a 1492tokens edition in their city, free of charge and without a franchise, provided they respect the format (five 8–10 minute AI talks, recorded and published on the shared channel) and these terms. The local host is responsible for the venue, attendee safety and local regulations. 1492tokens may withdraw the use of the name from editions that do not respect the format or spirit of the project.</p>
+        <h2>6. Disclaimer</h2>
+        <p>Opinions expressed in talks are solely those of the speakers. This site links to third-party platforms (Luma, YouTube, social networks) over whose content 1492tokens has no control.</p>
+        <h2>7. Governing law</h2>
+        <p>Spanish law applies. Courts of León, Spain, unless consumer law provides otherwise.</p>
+      </div>
+      )}
+    </div>
+  </section>
+</Base>

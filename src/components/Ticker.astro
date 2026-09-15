@@ -1,0 +1,19 @@
+---
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+const { lang } = Astro.props as { lang: Lang };
+const t = useTranslations(lang);
+const items = [t('ticker.1'), t('ticker.2'), t('ticker.3')];
+---
+<div class="ticker" aria-hidden="true">
+  <div class="track">
+    {[...items, ...items].map(i => <span>◆ {i}</span>)}
+  </div>
+</div>
+<style>
+  .ticker{ background: linear-gradient(90deg, var(--violet), var(--coral)); color:#0A0A12; font-family:'JetBrains Mono', monospace; font-weight:700; font-size:12px; overflow:hidden; white-space:nowrap; position:relative; z-index:10; }
+  .track{ display:inline-block; padding: 9px 0; animation: scroll 26s linear infinite; }
+  .track span{ margin: 0 24px; }
+  @keyframes scroll{ from{ transform: translateX(0);} to{ transform: translateX(-50%);} }
+  @media (prefers-reduced-motion: reduce){ .track{ animation:none; } }
+</style>

@@ -1,0 +1,123 @@
+---
+import Base from '../layouts/Base.astro';
+import TokenCounter from '../components/TokenCounter.astro';
+import EventCard from '../components/EventCard.astro';
+import Newsletter from '../components/Newsletter.astro';
+import TalkCard from '../components/TalkCard.astro';
+import LumaButton from '../components/LumaButton.astro';
+import { useTranslations, useRoutes } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+import { site } from '../config';
+import { getCollection } from 'astro:content';
+const { lang } = Astro.props as { lang: Lang };
+const t = useTranslations(lang);
+const r = useRoutes(lang);
+const talks = (await getCollection('talks')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const latest = talks[0];
+---
+<Base lang={lang} routeKey="home">
+  <!-- 1. HERO -->
+  <header class="hero">
+    <div class="wrap">
+      <div class="eyebrow"><span class="dot"></span> {t('hero.eyebrow')}</div>
+      <h1>{t('hero.h1a')}<br /><span class="grad-text">{t('hero.h1b')}</span></h1>
+      <p class="lead">{t('hero.lead.a')} <strong>{t('hero.lead.b')}</strong> {t('hero.lead.c')}</p>
+      <div class="ctas">
+        <LumaButton label={t('hero.cta.primary')} />
+        <a href={r('talks')} class="btn btn-ghost">{t('hero.cta.secondary')}</a>
+      </div>
+      <TokenCounter lang={lang} />
+    </div>
+  </header>
+
+  <!-- 2. PRÓXIMO EVENTO -->
+  <section id="evento">
+    <div class="wrap">
+      <EventCard lang={lang} compact />
+    </div>
+  </section>
+
+  <!-- 3. CONCEPTO EN 3 TARJETAS -->
+  <section class="concept">
+    <div class="wrap">
+      <div class="cells">
+        <div class="cell"><div class="big grad-text">{t('concept.card1.big')}</div><p>{t('concept.card1.p')}</p></div>
+        <div class="cell"><div class="big grad-text">{t('concept.card2.big')}</div><p>{t('concept.card2.p')}</p></div>
+        <div class="cell"><div class="big grad-text">{t('concept.card3.big')}</div><p>{t('concept.card3.p')}</p></div>
+      </div>
+      <p class="more"><a href={r('what')}>{t('concept.more')}</a></p>
+    </div>
+  </section>
+
+  <!-- 4. DOBLE CTA -->
+  <section class="double">
+    <div class="wrap">
+      <div class="grid-2">
+        <a href={r('speak')} class="card card-grad cta-card">
+          <span class="kicker">01</span>
+          <h3>{t('cta.speak.h')}</h3>
+          <p>{t('cta.speak.p')}</p>
+          <span class="link">{t('cta.speak.btn')}</span>
+        </a>
+        <a href={r('cities')} class="card card-grad cta-card">
+          <span class="kicker">02</span>
+          <h3>{t('cta.city.h')}</h3>
+          <p>{t('cta.city.p')}</p>
+          <span class="link">{t('cta.city.btn')}</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. ÚLTIMA CHARLA -->
+  <section class="latest">
+    <div class="wrap">
+      <span class="kicker">{t('latest.kicker')}</span>
+      {latest ? (
+        <div class="latest-grid">
+          <TalkCard talk={latest} lang={lang} />
+          <div class="latest-side">
+            <p><a href={r('talks')} class="btn btn-ghost">{t('latest.all')}</a></p>
+          </div>
+        </div>
+      ) : (
+        <div class="empty">
+          <p>{t('latest.empty')}</p>
+          <p class="mono note">{t('latest.empty.note')}</p>
+          <div class="ctas">
+            <a href={r('talks')} class="btn btn-ghost">{t('latest.all')}</a>
+            {site.youtube && <a href={site.youtube} class="btn btn-ghost" target="_blank" rel="noopener">{t('latest.channel')}</a>}
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <Newsletter lang={lang} />
+</Base>
+
+<style>
+  .hero{ padding: 64px 0 56px; position:relative; z-index:2; }
+  @media (min-width:760px){ .hero{ padding: 104px 0 80px; } }
+  .eyebrow{ display:inline-flex; align-items:center; gap:8px; font-family:'JetBrains Mono', monospace; font-size:12px; font-weight:500; background: var(--card); border:1px solid var(--card-border); padding:6px 14px; border-radius: 100px; margin-bottom:26px; }
+  .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background: var(--mint); box-shadow: 0 0 10px var(--mint); }
+  h1{ font-size: clamp(42px, 8vw, 100px); line-height: 0.96; font-weight: 700; max-width: 920px; }
+  .lead{ margin-top:24px; font-size:17px; line-height:1.6; color: var(--ink-soft); max-width: 560px; }
+  @media (min-width:760px){ .lead{ font-size:19px; } }
+  .lead strong{ color: var(--ink); }
+  .ctas{ display:flex; gap:12px; margin-top:32px; flex-wrap:wrap; }
+  section{ padding: 40px 0; }
+  @media (min-width:760px){ section{ padding: 56px 0; } }
+  .more{ margin-top:20px; text-align:right; font-size:14px; }
+  .more a{ color: var(--mint); }
+  .cta-card{ display:flex; flex-direction:column; gap:10px; transition: transform .2s, border-color .2s; }
+  .cta-card:hover{ transform: translateY(-4px); border-color: rgba(255,255,255,.24); }
+  .cta-card h3{ font-size:24px; }
+  .cta-card p{ color: var(--ink-soft); font-size:15px; line-height:1.55; flex:1; }
+  .cta-card .link{ color: var(--mint); font-weight:600; font-size:15px; margin-top:8px; }
+  .latest-grid{ display:grid; grid-template-columns:1fr; gap:20px; }
+  @media (min-width:760px){ .latest-grid{ grid-template-columns: 1.2fr 1fr; align-items:end; } }
+  .empty{ border:1px dashed var(--card-border); border-radius:18px; padding:40px 24px; text-align:center; color: var(--ink-soft); font-size:15px; background: var(--card); }
+  .empty .note{ font-size:13px; opacity:.7; margin-top:6px; }
+  .empty .ctas{ justify-content:center; margin-top:22px; }
+</style>

@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import { useTranslations, useRoutes } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+const { lang } = Astro.props as { lang: Lang };
+const t = useTranslations(lang);
+const r = useRoutes(lang);
+const rules = [1,2,3,4] as const;
+---
+<Base lang={lang} routeKey="what" title={t('what.title')}>
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{t('concept.kicker')}</span>
+        <h1>{t('what.h1')}</h1>
+      </div>
+
+      <div class="grid-2 block">
+        <div class="card card-grad">
+          <h2 class="h">{t('what.origin.h')}</h2>
+          <p class="p">{t('what.origin.p1')}</p>
+          <p class="p">{t('what.origin.p2')}</p>
+        </div>
+        <div class="card">
+          <h2 class="h">{t('what.who.h')}</h2>
+          <p class="p">{t('what.who.p')}</p>
+        </div>
+      </div>
+
+      <h2 class="h2">{t('what.rules.h')}</h2>
+      <div class="cells four">
+        {rules.map(n => (
+          <div class="cell">
+            <span class="kicker">0{n}</span>
+            <div class="big" style="font-size:22px">{t(`what.rule${n}.h` as any)}</div>
+            <p>{t(`what.rule${n}.p` as any)}</p>
+          </div>
+        ))}
+      </div>
+
+      <p class="cta"><a href={r('speak')} class="btn btn-solid">{t('what.cta')}</a></p>
+    </div>
+  </section>
+</Base>
+<style>
+  .block{ margin-bottom:56px; }
+  .h{ font-size:22px; margin-bottom:14px; }
+  .p{ color: var(--ink-soft); line-height:1.65; font-size:15.5px; margin-bottom:12px; }
+  .h2{ font-size: clamp(26px,3.4vw,36px); margin-bottom:24px; }
+  .cells.four{ grid-template-columns:1fr; }
+  @media (min-width:760px){ .cells.four{ grid-template-columns: repeat(2,1fr); } }
+  @media (min-width:1000px){ .cells.four{ grid-template-columns: repeat(4,1fr); } }
+  .cta{ margin-top:48px; }
+</style>

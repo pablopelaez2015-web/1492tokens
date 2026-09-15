@@ -1,0 +1,33 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { useTranslations, useRoutes } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+interface Props { talk: CollectionEntry<'talks'>; lang: Lang }
+const { talk, lang } = Astro.props;
+const t = useTranslations(lang);
+const r = useRoutes(lang);
+const d = talk.data;
+const href = `${r('talks')}/${talk.id}`;
+---
+<a class="talk-card" href={href} data-city={d.city} data-tags={d.tags.join('|')}>
+  <div class="thumb">
+    <img src={`https://i.ytimg.com/vi/${d.youtubeId}/hqdefault.jpg`} alt={d.title} loading="lazy" />
+    <div class="play">▶</div>
+  </div>
+  <div class="body">
+    <div class="tag">{d.city} · {d.date.toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-GB', { month: 'short', year: 'numeric' })} · {d.duration}</div>
+    <h4>{d.title}</h4>
+    <div class="meta">{d.speaker}</div>
+  </div>
+</a>
+<style>
+  .talk-card{ display:block; background: var(--card); border:1px solid var(--card-border); border-radius:18px; overflow:hidden; transition: transform .2s, border-color .2s; }
+  .talk-card:hover{ transform: translateY(-4px); border-color: rgba(255,255,255,.24); }
+  .thumb{ aspect-ratio:16/9; position:relative; background: linear-gradient(135deg, rgba(139,107,255,.35), rgba(255,93,93,.25)); }
+  .thumb img{ width:100%; height:100%; object-fit:cover; }
+  .play{ position:absolute; inset:0; margin:auto; width:46px; height:46px; border-radius:50%; background: rgba(0,0,0,.45); backdrop-filter: blur(6px); display:flex; align-items:center; justify-content:center; color:#fff; font-size:14px; }
+  .body{ padding:18px; }
+  .tag{ font-family:'JetBrains Mono',monospace; font-size:11px; color: var(--mint); font-weight:700; }
+  h4{ font-size:16px; margin:9px 0 6px; line-height:1.3; }
+  .meta{ font-size:13px; color: var(--ink-soft); }
+</style>

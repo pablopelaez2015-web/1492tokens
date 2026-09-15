@@ -1,0 +1,17 @@
+---
+// Botón de inscripción. Si hay evento en Luma, abre el checkout embebido de Luma;
+// si no, lleva a la página del evento (o al calendario).
+import { nextEvent, site } from '../config';
+interface Props { label: string; class?: string }
+const { label, class: cls = 'btn btn-solid' } = Astro.props;
+const href = nextEvent.lumaEventUrl || site.lumaCalendarUrl || '#';
+const hasLuma = Boolean(nextEvent.lumaEventId && nextEvent.lumaEventUrl);
+---
+{hasLuma ? (
+  <>
+    <a href={href} class={`${cls} luma-checkout--button`} data-luma-action="checkout" data-luma-event-id={nextEvent.lumaEventId}>{label}</a>
+    <script is:inline id="luma-checkout" src="https://embed.lu.ma/checkout-button.js"></script>
+  </>
+) : (
+  <a href={href} class={cls} target={href.startsWith('http') ? '_blank' : undefined} rel="noopener">{label}</a>
+)}

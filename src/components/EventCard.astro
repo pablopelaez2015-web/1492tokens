@@ -1,0 +1,53 @@
+---
+import { useTranslations, useRoutes, formatDate } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+import { nextEvent } from '../config';
+import LumaButton from './LumaButton.astro';
+interface Props { lang: Lang; compact?: boolean }
+const { lang, compact = false } = Astro.props;
+const t = useTranslations(lang);
+const r = useRoutes(lang);
+const date = formatDate(nextEvent.date, lang);
+const slots = Array.from({ length: nextEvent.talksPerEvent }, (_, i) => nextEvent.speakers[i] ?? null);
+---
+<div class="event-panel">
+  <div>
+    <div class="event-meta">{t('event.kicker')}</div>
+    <h3>{t('evpage.h1', { city: nextEvent.city, vol: nextEvent.volume })}</h3>
+    <ul class="event-list">
+      <li><b>{t('event.city')}</b> {nextEvent.city}, {nextEvent.country}</li>
+      <li><b>{t('event.date')}</b> {date ?? t('event.tbc')}</li>
+      <li><b>{t('event.venue')}</b> {nextEvent.venue || t('event.tbc')}</li>
+      <li><b>{t('event.format')}</b> {t('event.format.value')}</li>
+    </ul>
+    <div class="ctas">
+      <LumaButton label={t('event.reserve')} />
+      {compact
+        ? <a href={r('event')} class="btn btn-ghost">{t('event.more')}</a>
+        : <a href={r('speak')} class="btn btn-ghost">{t('event.speak')}</a>}
+    </div>
+  </div>
+  <div class="slot-stack">
+    {slots.map((s, i) => (
+      <div class="speaker-slot">
+        <div class="avatar">{s ? s.name.split(' ').map(p => p[0]).join('').slice(0,2) : '?'}</div>
+        {s ? <span><strong>{s.name}</strong> — {s.talk}</span> : <span>{i === slots.length - 1 ? t('event.slot.free') : t('event.slot.tbc')}</span>}
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .event-panel{ background: linear-gradient(155deg, rgba(139,107,255,.16), rgba(255,93,93,.10) 60%, transparent); border: 1px solid var(--card-border); border-radius: 26px; padding: 28px 22px; display:grid; grid-template-columns: 1fr; gap:28px; position:relative; overflow:hidden; }
+  @media (min-width: 800px){ .event-panel{ grid-template-columns: 1fr 1fr; gap:40px; padding:48px; } }
+  .event-meta{ font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--mint); margin-bottom:14px; letter-spacing:.04em; }
+  h3{ font-size: clamp(24px,3.2vw,34px); margin-bottom:18px; }
+  .event-list{ display:flex; flex-direction:column; gap:10px; margin-bottom:26px; }
+  .event-list li{ font-size:15px; color: var(--ink-soft); display:flex; gap:10px; border-bottom:1px solid var(--line); padding-bottom:10px; }
+  .event-list li b{ color: var(--ink); font-weight:600; min-width:80px; display:inline-block; }
+  .ctas{ display:flex; gap:12px; flex-wrap:wrap; }
+  .slot-stack{ display:flex; flex-direction:column; gap:10px; justify-content:center; }
+  .speaker-slot{ background: var(--card); border:1px dashed var(--card-border); border-radius:16px; padding:14px 16px; display:flex; align-items:center; gap:12px; font-size:14px; color: var(--ink-soft); }
+  .speaker-slot strong{ color: var(--ink); }
+  .avatar{ width:38px; height:38px; border-radius:50%; background: rgba(255,255,255,.08); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:12px; flex-shrink:0; }
+</style>

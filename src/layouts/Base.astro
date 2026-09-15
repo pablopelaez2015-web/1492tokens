@@ -1,0 +1,54 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Ticker from '../components/Ticker.astro';
+import Footer from '../components/Footer.astro';
+import type { Lang } from '../i18n/ui';
+import type { RouteKey } from '../i18n/utils';
+import { site } from '../config';
+
+interface Props {
+  lang: Lang;
+  routeKey: RouteKey;
+  title?: string;
+  description?: string;
+  ticker?: boolean;
+}
+const { lang, routeKey, title, description, ticker = true } = Astro.props;
+const fullTitle = title ? `${title} — ${site.name}` : `${site.name} — ${lang === 'es' ? 'Ideas sobre IA en 1492 palabras' : 'AI ideas in 1492 words'}`;
+const desc = description ?? (lang === 'es'
+  ? 'Evento mensual de charlas breves sobre inteligencia artificial. 1492 palabras, 8–10 minutos, grabadas y publicadas en abierto.'
+  : 'Monthly event of short talks about artificial intelligence. 1492 words, 8–10 minutes, recorded and openly published.');
+---
+<!DOCTYPE html>
+<html lang={lang}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={desc} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={desc} />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0A0A12" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="grain"></div>
+
+  <Nav lang={lang} routeKey={routeKey} />
+  {ticker && <Ticker lang={lang} />}
+
+  <main>
+    <slot />
+  </main>
+
+  <Footer lang={lang} />
+</body>
+</html>

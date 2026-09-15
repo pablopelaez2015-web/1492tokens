@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+import { site } from '../config';
+const { lang } = Astro.props as { lang: Lang };
+const t = useTranslations(lang);
+const activeCities = ['León'];
+---
+<Base lang={lang} routeKey="cities" title={t('cities.title')}>
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{lang === 'es' ? 'Expansión' : 'Expansion'}</span>
+        <h1>{t('cities.h1')}</h1>
+        <p>{t('cities.lead')}</p>
+      </div>
+
+      <div class="pills">
+        {activeCities.map(c => <span class="pill live"><span class="status"></span> {c}</span>)}
+        <span class="pill open"><span class="status"></span> {t('cities.soon')}</span>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h2 class="h">{t('cities.ask.h')}</h2>
+          <ul class="num-list">
+            <li><span class="num">01</span> {t('cities.ask.1')}</li>
+            <li><span class="num">02</span> {t('cities.ask.2')}</li>
+            <li><span class="num">03</span> {t('cities.ask.3')}</li>
+            <li><span class="num">04</span> {t('cities.ask.4')}</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2 class="h">{t('cities.give.h')}</h2>
+          <ul class="num-list">
+            <li><span class="num">01</span> {t('cities.give.1')}</li>
+            <li><span class="num">02</span> {t('cities.give.2')}</li>
+            <li><span class="num">03</span> {t('cities.give.3')}</li>
+            <li><span class="num">04</span> {t('cities.give.4')}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card card-grad form">
+        <h2 class="h">{t('cities.form.h')}</h2>
+        <p class="p">{t('cities.form.p')}</p>
+        {site.cityFormUrl
+          ? <a href={site.cityFormUrl} class="btn btn-solid" target="_blank" rel="noopener">{t('cities.form.btn')}</a>
+          : <p class="p">{t('cities.form.soon')} <a class="mail" href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a></p>}
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .pills{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:28px; }
+  .h{ font-size:20px; margin-bottom:6px; }
+  .p{ color: var(--ink-soft); line-height:1.6; font-size:15px; margin-top:10px; }
+  .form{ margin-top:24px; }
+  .form .btn{ margin-top:22px; }
+  .mail{ color: var(--mint); text-decoration: underline; text-underline-offset:3px; }
+</style>

@@ -1,0 +1,67 @@
+---
+import Base from '../layouts/Base.astro';
+import EventCard from '../components/EventCard.astro';
+import Newsletter from '../components/Newsletter.astro';
+import { useTranslations, useRoutes, formatDate } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+import { nextEvent, site } from '../config';
+const { lang } = Astro.props as { lang: Lang };
+const t = useTranslations(lang);
+const r = useRoutes(lang);
+const date = formatDate(nextEvent.date, lang);
+---
+<Base lang={lang} routeKey="event" title={t('evpage.title')}>
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{t('event.kicker')}</span>
+        <h1>{t('evpage.h1', { city: nextEvent.city, vol: nextEvent.volume })}</h1>
+        {!nextEvent.date && <p>{t('evpage.nodate')}</p>}
+      </div>
+
+      <EventCard lang={lang} />
+
+      <div class="grid-2 details">
+        <div class="card">
+          <h2 class="h">{t('evpage.when')}</h2>
+          <p class="p big">{date ?? t('event.tbc')}</p>
+          <h2 class="h" style="margin-top:28px">{t('evpage.where')}</h2>
+          <p class="p big">{nextEvent.venue || t('event.tbc')}</p>
+          {nextEvent.address && <p class="p">{nextEvent.address}</p>}
+          {nextEvent.capacityNote && <p class="p">{nextEvent.capacityNote}</p>}
+        </div>
+        <div class="card">
+          <h2 class="h">{t('evpage.agenda')}</h2>
+          <ul class="agenda">
+            <li><span class="mono">19:00</span> {t('evpage.agenda.doors')}</li>
+            <li><span class="mono">19:30</span> {t('evpage.agenda.talks')}</li>
+            <li><span class="mono">20:30</span> {t('evpage.agenda.net')}</li>
+          </ul>
+          <p class="p" style="margin-top:16px; font-size:13px">* {lang === 'es' ? 'Horario orientativo, se confirma con la fecha.' : 'Indicative times, confirmed with the date.'}</p>
+        </div>
+      </div>
+
+      <div class="card card-grad calendar">
+        <h2 class="h">{t('evpage.calendar')}</h2>
+        <p class="p">{t('evpage.calendar.p')}</p>
+        {site.lumaCalendarId ? (
+          <iframe src={`https://lu.ma/embed/calendar/${site.lumaCalendarId}/events`} width="100%" height="450" frameborder="0" style="border-radius:14px; border:1px solid var(--card-border)" allowfullscreen aria-hidden="false" tabindex="0"></iframe>
+        ) : (
+          <a href={site.lumaCalendarUrl || '#'} class="btn btn-solid" target={site.lumaCalendarUrl ? '_blank' : undefined} rel="noopener">{t('evpage.calendar.btn')}</a>
+        )}
+      </div>
+    </div>
+  </section>
+  <Newsletter lang={lang} />
+</Base>
+<style>
+  .details{ margin-top:24px; }
+  .h{ font-size:20px; margin-bottom:10px; }
+  .p{ color: var(--ink-soft); line-height:1.6; font-size:15px; }
+  .p.big{ font-size:18px; color: var(--ink); }
+  .agenda{ display:flex; flex-direction:column; gap:12px; }
+  .agenda li{ display:flex; gap:14px; font-size:15px; border-bottom:1px solid var(--line); padding-bottom:10px; }
+  .agenda .mono{ color: var(--mint); font-weight:700; font-size:13px; min-width:48px; }
+  .calendar{ margin-top:24px; }
+  .calendar .p{ margin-bottom:20px; }
+</style>

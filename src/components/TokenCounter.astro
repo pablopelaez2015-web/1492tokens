@@ -1,0 +1,88 @@
+---
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+const { lang } = Astro.props as { lang: Lang };
+const t = useTranslations(lang);
+// Las palabras de la cinta salen del propio copy de la web
+const words = [
+  t('hero.h1a'), t('hero.h1b'), t('hero.lead.a'), t('hero.lead.b'), t('hero.lead.c'),
+  t('concept.h2'), t('cta.speak.h'), t('cta.city.h'), t('latest.kicker'),
+].join(' ').replace(/[.,—:()]/g, ' ').split(/\s+/).filter(w => w.length > 1);
+---
+<div class="counter-strip">
+  <div class="counter-cell">
+    <div class="cap">{t('counter.live')}</div>
+    <div class="counter-number"><span data-counter>0</span><span class="of"> / 1492</span></div>
+    <div class="token-stream" data-stream data-words={JSON.stringify(words)}></div>
+  </div>
+  <div class="counter-cell">
+    <div class="cap">{t('counter.duration')}</div>
+    <div class="stat-big grad-text">8–10 min</div>
+    <p class="note">{t('counter.duration.note')}</p>
+  </div>
+  <div class="counter-cell">
+    <div class="cap">{t('counter.format')}</div>
+    <div class="stat-big grad-text small">{t('counter.format.big')}</div>
+    <p class="note">{t('counter.format.note')}</p>
+  </div>
+</div>
+
+<style>
+  .counter-strip{ margin-top: 48px; display:grid; grid-template-columns: 1fr; gap: 1px; background: var(--line); border:1px solid var(--card-border); border-radius:20px; overflow:hidden; }
+  @media (min-width: 760px){ .counter-strip{ grid-template-columns: 1.3fr 1fr 1fr; margin-top:64px; } }
+  .counter-cell{ background: var(--bg-2); padding: 24px; }
+  .cap{ font-family:'JetBrains Mono', monospace; font-size:11.5px; color: var(--ink-soft); letter-spacing:.05em; text-transform:uppercase; }
+  .counter-number{ font-family:'JetBrains Mono', monospace; font-weight:700; font-size:44px; margin-top:8px; }
+  .counter-number .of{ font-size:18px; color: var(--ink-soft); font-weight:500; }
+  .token-stream{ display:flex; flex-wrap:wrap; gap:6px; margin-top:14px; min-height:30px; }
+  .token-stream :global(.tok){ font-family:'JetBrains Mono', monospace; font-size:11px; background: rgba(255,255,255,.06); border:1px solid var(--card-border); color: var(--ink-soft); padding:4px 8px; border-radius:6px; opacity:0; animation: tokIn .35s ease forwards; }
+  @keyframes tokIn{ from{opacity:0; transform: translateY(4px);} to{opacity:1; transform:none;} }
+  .stat-big{ font-family:'Space Grotesk',sans-serif; font-size:30px; font-weight:700; margin-top:8px; }
+  .stat-big.small{ font-size:22px; line-height:1.25; }
+  .note{ margin-top:10px; font-size:13px; color:var(--ink-soft); line-height:1.5; }
+  @media (prefers-reduced-motion: reduce){ .token-stream :global(.tok){ animation:none; opacity:1; } }
+</style>
+
+<script is:inline>
+  (function(){
+    var target = 1492;
+    var counterEl = document.querySelector('[data-counter]');
+    var streamEl = document.querySelector('[data-stream]');
+    if(!counterEl || !streamEl) return;
+    var words = [];
+    try { words = JSON.parse(streamEl.getAttribute('data-words') || '[]'); } catch(e){}
+    if(!words.length) words = ['1492','tokens','palabras'];
+
+    var introDuration = 3200, tokenTickMs = 420;
+    var start = performance.now();
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var introFinished = false, slowCount = 0, wordIndex = 0, MAX = 12;
+
+    function tick(now){
+      var p = Math.min((now - start) / introDuration, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      counterEl.textContent = Math.floor(eased * target);
+      if(p < 1) requestAnimationFrame(tick);
+      else { counterEl.textContent = target; introFinished = true; }
+    }
+    requestAnimationFrame(tick);
+
+    function addToken(){
+      var s = document.createElement('span');
+      s.className = 'tok';
+      s.textContent = words[wordIndex % words.length];
+      streamEl.appendChild(s);
+      wordIndex++;
+      if(streamEl.children.length > MAX) streamEl.removeChild(streamEl.firstElementChild);
+      if(introFinished){
+        slowCount = slowCount >= target ? 0 : slowCount + 1;
+        counterEl.textContent = slowCount;
+      }
+    }
+    if(reduced){
+      words.slice(0, MAX).forEach(function(w){ var s=document.createElement('span'); s.className='tok'; s.textContent=w; streamEl.appendChild(s); });
+    } else {
+      setInterval(addToken, tokenTickMs);
+    }
+  })();
+</script>

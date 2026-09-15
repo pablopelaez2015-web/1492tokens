@@ -1,0 +1,71 @@
+---
+import Base from '../layouts/Base.astro';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+import { site } from '../config';
+const { lang } = Astro.props as { lang: Lang };
+const t = useTranslations(lang);
+const updated = '15 de septiembre de 2026';
+---
+<Base lang={lang} routeKey="privacy" title={t('legal.privacy.title')} ticker={false}>
+  <section>
+    <div class="wrap wrap-narrow">
+      <div class="section-head">
+        <h1>{t('legal.privacy.title')}</h1>
+        <p class="mono" style="font-size:13px">{t('legal.updated')}: {updated}</p>
+      </div>
+
+      {lang === 'es' ? (
+      <div class="prose">
+        <p><strong>Texto base pendiente de revisión legal.</strong> Sustituye los campos entre corchetes antes de publicar.</p>
+
+        <h2>1. Responsable del tratamiento</h2>
+        <p>Responsable: {site.founder} (en adelante, «1492tokens»).<br/>NIF: [NIF].<br/>Domicilio: [Dirección postal], León, España.<br/>Email: <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>.</p>
+
+        <h2>2. Qué datos tratamos y con qué finalidad</h2>
+        <h3>2.1 Newsletter</h3>
+        <p>Tratamos tu dirección de email para enviarte un correo mensual con la próxima fecha, los ponentes y la charla más reciente. Base jurídica: tu consentimiento (art. 6.1.a RGPD). Puedes retirarlo en cualquier momento desde el enlace de baja de cada envío o escribiéndonos.</p>
+        <h3>2.2 Inscripción a los eventos</h3>
+        <p>La inscripción se gestiona a través de la plataforma Luma (Luma Labs, Inc.). Al inscribirte, Luma trata tus datos conforme a su propia política de privacidad. 1492tokens accede a la lista de inscritos (nombre y email) únicamente para gestionar el aforo, el acceso al evento y las comunicaciones relacionadas con esa edición. Base jurídica: ejecución de la relación derivada de tu inscripción (art. 6.1.b RGPD).</p>
+        <h3>2.3 Propuestas de charla y de nuevas ciudades</h3>
+        <p>Tratamos nombre y apellidos, email, ciudad, título y resumen de la propuesta y enlaces a perfiles públicos (LinkedIn u otras redes) que nos facilites, para valorar tu propuesta y contactarte. Los formularios se alojan en [Google Forms / Tally]. Base jurídica: medidas precontractuales a petición tuya (art. 6.1.b RGPD) y tu consentimiento.</p>
+        <h3>2.4 Ponentes: imagen, voz y grabación</h3>
+        <p>Si participas como ponente, tratamos tu nombre, imagen, voz y el contenido de tu charla para grabarla, publicarla en el canal de YouTube de 1492tokens y en esta web, y difundir fragmentos en Instagram, TikTok y otras redes del proyecto. Base jurídica: tu consentimiento expreso, recogido antes de la grabación. Consulta el detalle de la cesión de derechos en el Aviso legal.</p>
+        <h3>2.5 Asistentes: imagen en fotografías y vídeo</h3>
+        <p>Durante los eventos se realizan fotografías y grabaciones de vídeo en las que puede aparecer el público. Se informará de ello en el acceso a cada evento. Si no deseas aparecer, indícalo a la organización al llegar y lo tendremos en cuenta en la medida de lo posible.</p>
+
+        <h2>3. Conservación</h2>
+        <p>Newsletter: hasta que te des de baja. Inscripciones: hasta 12 meses después del evento. Propuestas no seleccionadas: 12 meses. Grabaciones de ponentes: de forma indefinida mientras el proyecto siga activo, sin perjuicio de tu derecho a solicitar su retirada.</p>
+
+        <h2>4. Destinatarios y encargados</h2>
+        <p>Compartimos datos únicamente con los proveedores necesarios para prestar el servicio: Luma (inscripciones), [proveedor de newsletter], [Google / Tally] (formularios), Google/YouTube, Meta (Instagram) y TikTok (publicación de vídeos), y el proveedor de alojamiento de esta web ([Cloudflare / Netlify / Vercel]). Algunos de estos proveedores están fuera del Espacio Económico Europeo; las transferencias se amparan en las cláusulas contractuales tipo o en decisiones de adecuación de la Comisión Europea.</p>
+
+        <h2>5. Tus derechos</h2>
+        <p>Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad escribiendo a <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>. Si consideras que no hemos atendido correctamente tu solicitud, puedes reclamar ante la Agencia Española de Protección de Datos (www.aepd.es).</p>
+
+        <h2>6. Cookies</h2>
+        <p>Esta web no utiliza cookies propias de seguimiento. Los vídeos de YouTube se cargan en modo «sin cookies» (youtube-nocookie.com) hasta que pulsas reproducir. Los widgets de Luma y las fuentes de Google pueden establecer cookies técnicas propias de esos proveedores.</p>
+
+        <h2>7. Cambios</h2>
+        <p>Podemos actualizar esta política. La fecha de la última versión aparece al principio de esta página.</p>
+      </div>
+      ) : (
+      <div class="prose">
+        <p><strong>Base text pending legal review.</strong> Replace bracketed fields before publishing. The Spanish version is the authoritative one.</p>
+        <h2>1. Data controller</h2>
+        <p>{site.founder} ("1492tokens"). Tax ID: [NIF]. Address: [Postal address], León, Spain. Email: <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>.</p>
+        <h2>2. What we process and why</h2>
+        <p><strong>Newsletter:</strong> your email, to send one monthly email (consent, art. 6.1.a GDPR). Unsubscribe any time.<br/><strong>Event registration:</strong> managed through Luma; we access the attendee list (name, email) only to manage capacity, access and event communications (art. 6.1.b GDPR).<br/><strong>Talk and city proposals:</strong> name, email, city, title, summary and public profile links, to assess and contact you (art. 6.1.b GDPR and consent).<br/><strong>Speakers:</strong> name, image, voice and talk content, to record and publish on YouTube, this website and social clips (explicit consent collected before recording). See the Legal notice for the rights assignment.<br/><strong>Attendees:</strong> photos and video may be taken at events; you will be informed at the entrance.</p>
+        <h2>3. Retention</h2>
+        <p>Newsletter: until you unsubscribe. Registrations: 12 months after the event. Unselected proposals: 12 months. Speaker recordings: indefinitely while the project is active, without prejudice to your right to request removal.</p>
+        <h2>4. Recipients</h2>
+        <p>Luma, [newsletter provider], [Google / Tally], Google/YouTube, Meta, TikTok and our hosting provider ([Cloudflare / Netlify / Vercel]). International transfers rely on standard contractual clauses or adequacy decisions.</p>
+        <h2>5. Your rights</h2>
+        <p>Access, rectification, erasure, objection, restriction and portability: write to <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>. You may also lodge a complaint with the Spanish Data Protection Agency (www.aepd.es).</p>
+        <h2>6. Cookies</h2>
+        <p>No first-party tracking cookies. YouTube embeds use youtube-nocookie.com. Luma widgets and Google Fonts may set their own technical cookies.</p>
+      </div>
+      )}
+    </div>
+  </section>
+</Base>

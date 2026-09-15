@@ -1,0 +1,33 @@
+# ============================================================
+# 1492tokens — contenedor web (Nginx) detrás del Traefik del VPS
+# Copiar a /opt/1492tokens/ en el VPS y lanzar con:
+#   docker compose up -d
+# ============================================================
+services:
+  web:
+    image: nginx:1.27-alpine
+    container_name: 1492tokens-web
+    restart: unless-stopped
+    volumes:
+      - /opt/1492tokens/dist:/usr/share/nginx/html:ro
+      - /opt/1492tokens/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      # Router HTTPS
+      - "traefik.http.routers.tokens.rule=Host(`1492tokens.com`) || Host(`www.1492tokens.com`)"
+      - "traefik.http.routers.tokens.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}"
+      - "traefik.http.routers.tokens.tls=true"
+      - "traefik.http.routers.tokens.tls.certresolver=${TRAEFIK_CERTRESOLVER:-letsencrypt}"
+      - "traefik.http.services.tokens.loadbalancer.server.port=80"
+      # www → raíz (301)
+      - "traefik.http.middlewares.tokens-www.redirectregex.regex=^https?://www\\.1492tokens\\.com/(.*)"
+      - "traefik.http.middlewares.tokens-www.redirectregex.replacement=https://1492tokens.com/$${1}"
+      - "traefik.http.middlewares.tokens-www.redirectregex.permanent=true"
+      - "traefik.http.routers.tokens.middlewares=tokens-www"
+
+networks:
+  traefik:
+    external: true
+    name: ${TRAEFIK_NETWORK:-root_default}
