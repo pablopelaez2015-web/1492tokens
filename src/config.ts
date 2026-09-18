@@ -5,7 +5,7 @@
 export const site = {
   name: '1492tokens',
   domain: 'https://1492tokens.com',
-  contactEmail: 'pablo@pelaezaller.com',
+  contactEmail: 'info@1492tokens.com',
   founder: 'Pablo Peláez',
   founderLinkedIn: 'https://www.linkedin.com/in/pablopela/', // ← revisar
   // Redes (dejar '' para ocultar el enlace)
@@ -19,7 +19,7 @@ export const site = {
   // Formularios (Google Forms / Tally)
   speakerFormUrl: '',    // formulario "Quiero hablar"
   cityFormUrl: '',       // formulario "Traer 1492tokens a mi ciudad"
-  newsletterAction: '',  // URL 'action' del formulario de Brevo: https://XXXX.sibforms.com/serve/MUIF... (ver README → Newsletter)
+  newsletterAction: 'https://1eb02284.sibforms.com/serve/MUIFADUqok1q9FwMCniAgjXnHCmb1ibH_-7FWg9Ab0jZYU8SKJ-KvBiC5zGVCHvk7q1s1r3UD1CBRHCYaAY-jGbF7Cj1U7lwvWjtnNBmgX_q8WX_DkSjF2OzCgOI5V4TgA8LKsArcOZVnhrJq5pphPRFnfyD22JHqNxoe5Qz5EBk-tgFgzRSDF50MWq-XUE1VYyGiqUW--VUcISVcQ==',  // formulario de Brevo (ver README → Newsletter)
 };
 
 // Próximo evento. Si no hay fecha confirmada, deja `date: null`.

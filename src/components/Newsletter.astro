@@ -19,11 +19,11 @@ const action = site.newsletterAction ? `${site.newsletterAction}${site.newslette
       {action ? (
         <div class="sib-form">
           <div id="sib-form-container" class="sib-form-container">
-            <div id="error-message" class="sib-form-message sib-form-message--error">
-              <span class="sib-form-message__text">{t('news.error')}</span>
+            <div id="error-message" class="sib-form-message-panel sib-form-message-panel--error">
+              <div class="sib-form-message-panel__text"><span class="sib-form-message-panel__inner-text">{t('news.error')}</span></div>
             </div>
-            <div id="success-message" class="sib-form-message sib-form-message--success">
-              <span class="sib-form-message__text">{t('news.success')}</span>
+            <div id="success-message" class="sib-form-message-panel sib-form-message-panel--success">
+              <div class="sib-form-message-panel__text"><span class="sib-form-message-panel__inner-text">{t('news.success')}</span></div>
             </div>
             <div id="sib-container" class="sib-container--large">
               <form id="sib-form" method="POST" action={action} data-type="subscription">
@@ -75,9 +75,9 @@ const action = site.newsletterAction ? `${site.newsletterAction}${site.newslette
   .news-form button .icon{ display:none; fill:#fff; }
   .news-form button.sib-form-block__button-with-loader .icon{ display:none; }
   .input--hidden{ position:absolute; left:-9999px; opacity:0; height:0; width:0; }
-  .sib-form-message{ display:none; margin:18px auto 0; max-width:460px; padding:12px 18px; border-radius:14px; font-size:14px; font-weight:500; text-align:left; }
-  .sib-form-message--error{ background: rgba(10,10,18,.85); color:#fff; }
-  .sib-form-message--success{ background: #0A0A12; color: var(--mint); }
+  .sib-form-message-panel{ display:none; margin:18px auto 0; max-width:460px; padding:12px 18px; border-radius:14px; font-size:14px; font-weight:500; text-align:left; }
+  .sib-form-message-panel--error{ background: rgba(10,10,18,.85); color:#fff; }
+  .sib-form-message-panel--success{ background: #0A0A12; color: var(--mint); }
   .soon{ margin-top:22px; }
   .soon a{ color:#0A0A12; text-decoration: underline; font-weight:600; }
   .privacy{ margin-top:14px; font-size:12px; }
