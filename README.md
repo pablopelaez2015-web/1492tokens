@@ -47,9 +47,34 @@ Los archivos que empiezan por `_` se ignoran.
 
 - `site.speakerFormUrl` → Google Form / Tally de "Quiero hablar" (campos: nombre y apellidos, email, ciudad, título provisional, resumen 2–3 frases, LinkedIn/redes).
 - `site.cityFormUrl` → formulario de "Traer 1492tokens a mi ciudad".
-- `site.newsletterAction` → endpoint POST de tu herramienta de newsletter (Buttondown, Brevo, Mailchimp...). Mientras esté vacío, el formulario no envía nada.
+- `site.newsletterAction` → URL del formulario de Brevo (ver sección Newsletter). Mientras esté vacío, la web muestra el email de contacto en su lugar.
 
 Si un enlace está vacío, la página muestra el email de contacto en su lugar.
+
+## Newsletter (Brevo)
+
+La lista, la doble confirmación, los envíos y las bajas los gestiona Brevo. La web solo envía
+el email al formulario de Brevo.
+
+**Configurar una vez:**
+
+1. Crea cuenta en brevo.com (plan gratuito) y verifica el dominio `1492tokens.com` en
+   *Senders & IPs → Domains* (Brevo te da los registros DKIM/DMARC para añadir en el DNS de Hostinger).
+2. *Contacts → Lists*: crea la lista `1492tokens newsletter`.
+3. *Contacts → Forms → Create a form*. Solo el campo Email. En *Settings*:
+   - **Double opt-in: activado** (obligatorio para RGPD). Elige el email de confirmación.
+   - *After confirmation*: "Show a message" (la web ya muestra el suyo).
+   - Asigna la lista `1492tokens newsletter`.
+4. En el paso *Share*, elige "HTML code" y busca en el código la línea
+   `action="https://XXXX.sibforms.com/serve/MUIF..."`. Copia esa URL (sin el `?isAjax=1`).
+5. Pégala en `src/config.ts` → `site.newsletterAction`. Commit y push.
+
+**Enviar la newsletter:** *Campaigns → Email → Create*. Brevo añade automáticamente el enlace de
+baja obligatorio a cada envío; quien pulse deja de recibirla al instante, sin intervención tuya.
+La lista de contactos con sus bajas se ve en *Contacts*.
+
+**Frecuencia:** el texto de la web dice "un email al mes". Si pasas a semanal, cambia
+`news.p` en `src/i18n/ui.ts`.
 
 ## Idiomas
 

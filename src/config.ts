@@ -19,7 +19,7 @@ export const site = {
   // Formularios (Google Forms / Tally)
   speakerFormUrl: '',    // formulario "Quiero hablar"
   cityFormUrl: '',       // formulario "Traer 1492tokens a mi ciudad"
-  newsletterAction: '',  // endpoint de tu herramienta de newsletter (Mailchimp, Brevo, Buttondown...)
+  newsletterAction: '',  // URL 'action' del formulario de Brevo: https://XXXX.sibforms.com/serve/MUIF... (ver README → Newsletter)
 };
 
 // Próximo evento. Si no hay fecha confirmada, deja `date: null`.
