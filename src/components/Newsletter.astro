@@ -45,7 +45,7 @@ const action = site.newsletterAction ? `${site.newsletterAction}${site.newslette
       )}
 
       <p class="privacy"><a href={r('privacy')}>{t('news.privacy')}</a>
-        {site.newsletterUnsubscribeUrl && <span> · {t('news.unsub')} <a href={site.newsletterUnsubscribeUrl} target="_blank" rel="noopener">{t('news.unsub.link')}</a></span>}
+        {site.newsletterUnsubscribeUrl && <span> · {t('news.unsub')} <a href={r('unsubscribe')}>{t('news.unsub.link')}</a></span>}
       </p>
     </div>
   </div>

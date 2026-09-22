@@ -26,6 +26,7 @@ export const routes = {
     about: '/sobre',
     privacy: '/privacidad',
     legal: '/aviso-legal',
+    unsubscribe: '/baja',
   },
   en: {
     home: '/en/',
@@ -37,6 +38,7 @@ export const routes = {
     about: '/en/about',
     privacy: '/en/privacy',
     legal: '/en/legal-notice',
+    unsubscribe: '/en/unsubscribe',
   },
 } as const;
 

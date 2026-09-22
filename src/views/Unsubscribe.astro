@@ -1,0 +1,81 @@
+---
+import Base from '../layouts/Base.astro';
+import { useTranslations, useRoutes } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+import { site } from '../config';
+const { lang } = Astro.props as { lang: Lang };
+const t = useTranslations(lang);
+const r = useRoutes(lang);
+const base = site.newsletterUnsubscribeUrl;
+const action = base ? `${base}${base.includes('?') ? '&' : '?'}isAjax=1` : '';
+---
+<Base lang={lang} routeKey="unsubscribe" title={t('unsub.title')} ticker={false}>
+  <section>
+    <div class="wrap wrap-narrow" style="text-align:center; padding: 40px 0 20px;">
+      <span class="kicker">newsletter</span>
+      <h1 class="h1">{t('unsub.h1')}</h1>
+      <p class="p">{t('unsub.p')}</p>
+
+      {action ? (
+        <div class="sib-form">
+          <div id="sib-form-container" class="sib-form-container">
+            <div id="error-message" class="sib-form-message-panel sib-form-message-panel--error">
+              <div class="sib-form-message-panel__text"><span class="sib-form-message-panel__inner-text">{t('unsub.error')} <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a></span></div>
+            </div>
+            <div id="success-message" class="sib-form-message-panel sib-form-message-panel--success">
+              <div class="sib-form-message-panel__text"><span class="sib-form-message-panel__inner-text">{t('unsub.success')}</span></div>
+            </div>
+            <div id="sib-container" class="sib-container--large">
+              <form id="sib-form" method="POST" action={action} data-type="unsubscription">
+                <div class="row">
+                  <input class="input" type="email" id="EMAIL" name="EMAIL" autocomplete="email" placeholder={t('news.placeholder')} data-required="true" required />
+                  <button class="sib-form-block__button sib-form-block__button-with-loader btn btn-solid" type="submit" form="sib-form">
+                    <svg class="icon clickable__icon progress-indicator__icon sib-hide-loader-icon" viewBox="0 0 512 512" width="16" height="16" aria-hidden="true"><path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z"/></svg>
+                    {t('unsub.btn')}
+                  </button>
+                </div>
+                <input type="text" name="email_address_check" value="" class="input--hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+                <input type="hidden" name="locale" value={lang} />
+              </form>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <p class="p"><a href={`mailto:${site.contactEmail}`} class="mail">{site.contactEmail}</a></p>
+      )}
+
+      <p class="back"><a href={r('home')}>{t('common.back')}</a></p>
+    </div>
+  </section>
+</Base>
+
+{action && (
+  <>
+    <script is:inline>
+      window.LOCALE = 'es';
+      window.EMAIL_INVALID_MESSAGE = window.SMS_INVALID_MESSAGE = 'El email no parece válido. Revísalo e inténtalo de nuevo.';
+      window.REQUIRED_ERROR_MESSAGE = 'Este campo es obligatorio.';
+      window.GENERIC_INVALID_MESSAGE = 'El email no parece válido. Revísalo e inténtalo de nuevo.';
+      window.translation = { common: { selectedList: '{quantity} lista seleccionada', selectedLists: '{quantity} listas seleccionadas', selectedOption: '{quantity} seleccionado', selectedOptions: '{quantity} seleccionados' } };
+      var AUTOHIDE = Boolean(0);
+    </script>
+    <script is:inline defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
+  </>
+)}
+
+<style>
+  .h1{ font-size: clamp(34px,6vw,64px); line-height:1.02; }
+  .p{ color: var(--ink-soft); margin:20px auto 30px; max-width:520px; font-size:16.5px; line-height:1.65; }
+  .p a, .mail{ color: var(--mint); text-decoration: underline; text-underline-offset:3px; }
+  .row{ display:flex; gap:10px; justify-content:center; max-width:480px; margin:0 auto; flex-wrap:wrap; }
+  .row .input{ flex:1; min-width:220px; padding:14px 18px; border-radius:100px; border:1px solid var(--card-border); background: var(--card); color: var(--ink); font-family:'Inter',sans-serif; font-size:14.5px; }
+  .row .input::placeholder{ color: var(--ink-soft); }
+  .row button .icon{ display:none; }
+  .input--hidden{ position:absolute; left:-9999px; opacity:0; height:0; width:0; }
+  .sib-form-message-panel{ display:none; margin:0 auto 18px; max-width:480px; padding:12px 18px; border-radius:14px; font-size:14px; font-weight:500; text-align:left; border:1px solid var(--card-border); }
+  .sib-form-message-panel--active{ display:block !important; }
+  .sib-form-message-panel--error{ background: rgba(255,93,93,.12); color: var(--ink); }
+  .sib-form-message-panel--success{ background: rgba(0,230,184,.12); color: var(--mint); }
+  :global(.sib-form-block__button--hidden){ display:none; }
+  .back{ margin-top:32px; font-size:14px; color: var(--ink-soft); }
+</style>

@@ -93,6 +93,12 @@ export const ui = {
     'news.soon': 'La newsletter estará disponible muy pronto. Mientras tanto, escríbenos a',
     'news.unsub': '¿Ya estás suscrito y quieres darte de baja?',
     'news.unsub.link': 'Cancelar suscripción',
+    'unsub.title': 'Darse de baja',
+    'unsub.h1': 'Sin rencores.',
+    'unsub.p': 'Escribe el email con el que te suscribiste y dejarás de recibir la newsletter de 1492tokens al instante. Las charlas seguirán en abierto en YouTube y en esta web por si algún día quieres volver.',
+    'unsub.btn': 'Darme de baja',
+    'unsub.success': 'Listo. Ya no recibirás más correos nuestros.',
+    'unsub.error': 'No hemos podido procesar la baja. Comprueba el email e inténtalo de nuevo, o escríbenos a',
 
     // Footer
     'footer.tag': 'Charlas breves sobre inteligencia artificial. Nacido en León, pensado para cualquier ciudad.',
@@ -287,6 +293,12 @@ export const ui = {
     'news.soon': 'The newsletter will be available very soon. In the meantime, write to us at',
     'news.unsub': 'Already subscribed and want out?',
     'news.unsub.link': 'Unsubscribe',
+    'unsub.title': 'Unsubscribe',
+    'unsub.h1': 'No hard feelings.',
+    'unsub.p': 'Enter the email you subscribed with and you\'ll stop receiving the 1492tokens newsletter immediately. The talks stay open on YouTube and on this website in case you ever want to come back.',
+    'unsub.btn': 'Unsubscribe me',
+    'unsub.success': 'Done. You won\'t receive any more emails from us.',
+    'unsub.error': 'We couldn\'t process your request. Check the email and try again, or write to us at',
 
     'footer.tag': 'Short talks about artificial intelligence. Born in León, built for any city.',
     'footer.contact': 'Contact',
