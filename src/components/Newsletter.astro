@@ -76,8 +76,10 @@ const action = site.newsletterAction ? `${site.newsletterAction}${site.newslette
   .news-form button.sib-form-block__button-with-loader .icon{ display:none; }
   .input--hidden{ position:absolute; left:-9999px; opacity:0; height:0; width:0; }
   .sib-form-message-panel{ display:none; margin:18px auto 0; max-width:460px; padding:12px 18px; border-radius:14px; font-size:14px; font-weight:500; text-align:left; }
+  .sib-form-message-panel--active{ display:block !important; }
   .sib-form-message-panel--error{ background: rgba(10,10,18,.85); color:#fff; }
   .sib-form-message-panel--success{ background: #0A0A12; color: var(--mint); }
+  :global(.sib-form-block__button--hidden){ display:none; }
   .soon{ margin-top:22px; }
   .soon a{ color:#0A0A12; text-decoration: underline; font-weight:600; }
   .privacy{ margin-top:14px; font-size:12px; }

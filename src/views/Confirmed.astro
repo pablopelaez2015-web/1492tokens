@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import { useRoutes } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+const { lang } = Astro.props as { lang: Lang };
+const r = useRoutes(lang);
+const es = lang === 'es';
+---
+<Base lang={lang} routeKey="home" title={es ? 'Suscripción confirmada' : 'Subscription confirmed'} ticker={false}>
+  <section>
+    <div class="wrap" style="text-align:center; padding: 60px 0 40px;">
+      <span class="kicker">{es ? 'newsletter' : 'newsletter'}</span>
+      <h1 style="font-size:clamp(34px,6vw,64px); line-height:1.02;">{es ? 'Ya estás dentro.' : 'You\'re in.'}</h1>
+      <p style="color:var(--ink-soft); margin:20px auto 32px; max-width:520px; font-size:17px; line-height:1.6;">
+        {es
+          ? 'Suscripción confirmada. Te escribiremos cuando haya nueva fecha, nuevos ponentes o una charla recién publicada. Nada más.'
+          : 'Subscription confirmed. We\'ll write when there\'s a new date, new speakers or a freshly published talk. Nothing else.'}
+      </p>
+      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+        <a href={r('event')} class="btn btn-solid">{es ? 'Ver el próximo evento →' : 'See the next event →'}</a>
+        <a href={r('home')} class="btn btn-ghost">{es ? 'Volver al inicio' : 'Back home'}</a>
+      </div>
+    </div>
+  </section>
+</Base>
