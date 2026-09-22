@@ -91,6 +91,8 @@ export const ui = {
     'news.success': '¡Casi! Revisa tu correo y confirma la suscripción en el enlace que te acabamos de enviar.',
     'news.error': 'No hemos podido registrar tu email. Comprueba que está bien escrito e inténtalo de nuevo.',
     'news.soon': 'La newsletter estará disponible muy pronto. Mientras tanto, escríbenos a',
+    'news.unsub': '¿Ya estás suscrito y quieres darte de baja?',
+    'news.unsub.link': 'Cancelar suscripción',
 
     // Footer
     'footer.tag': 'Charlas breves sobre inteligencia artificial. Nacido en León, pensado para cualquier ciudad.',
@@ -283,6 +285,8 @@ export const ui = {
     'news.success': 'Almost there! Check your inbox and confirm your subscription with the link we just sent you.',
     'news.error': 'We couldn\'t register your email. Check it\'s spelled correctly and try again.',
     'news.soon': 'The newsletter will be available very soon. In the meantime, write to us at',
+    'news.unsub': 'Already subscribed and want out?',
+    'news.unsub.link': 'Unsubscribe',
 
     'footer.tag': 'Short talks about artificial intelligence. Born in León, built for any city.',
     'footer.contact': 'Contact',

@@ -20,6 +20,7 @@ export const site = {
   speakerFormUrl: '',    // formulario "Quiero hablar"
   cityFormUrl: '',       // formulario "Traer 1492tokens a mi ciudad"
   newsletterAction: 'https://1eb02284.sibforms.com/serve/MUIFADUqok1q9FwMCniAgjXnHCmb1ibH_-7FWg9Ab0jZYU8SKJ-KvBiC5zGVCHvk7q1s1r3UD1CBRHCYaAY-jGbF7Cj1U7lwvWjtnNBmgX_q8WX_DkSjF2OzCgOI5V4TgA8LKsArcOZVnhrJq5pphPRFnfyD22JHqNxoe5Qz5EBk-tgFgzRSDF50MWq-XUE1VYyGiqUW--VUcISVcQ==',  // formulario de Brevo (ver README → Newsletter)
+  newsletterUnsubscribeUrl: 'https://1eb02284.sibforms.com/serve/MUIFACBbi7HvRPMt0YdeJqVokCSx_38uJpEDbJ1wfEyvEvw9IAqZHdu4_ix0GR-kJodJI0bXCTkVPaAtIYfd0Gcr1Ej18-yd027YyvFgW2QBEFAd8cu08Vhg5ZHeSI0jQLEfK6lF8NrDJ23bhSMNu6HC1DTfst7CWBnrUQqyUd9bmUe6OzyHkq-rwT60tDoqEatGHBGfa9Sc0iLmSQ==',  // formulario de baja alojado en Brevo
 };
 
 // Próximo evento. Si no hay fecha confirmada, deja `date: null`.
